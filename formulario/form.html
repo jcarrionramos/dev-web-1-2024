@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <h1 class="title">Formulario</h1>
+    <form class="card">
+      <div class="form-control">
+        <label>Nombre</label>
+        <input class="input-form-control" type="text" />
+      </div>
+  
+      <div class="form-control">
+        <label>Correo</label>
+        <input class="input-form-control" type="email" />
+      </div>
+  
+      <div class="form-control">
+        <label>Contraseña</label>
+        <input class="input-form-control" type="password" />
+      </div>
+  
+      <div class="form-control">
+        <label>Genero</label>
+        <select name="lang">
+          <option value="m">Masculino</option>
+          <option value="f">Feminino</option>
+          <option value="o">Otros</option>
+        </select>
+      </div>
+  
+  
+      <div class="form-control">
+        <label>Idioma</label>
+        <input type="checkbox" name="lang">Español</input>
+        <input type="checkbox" name="lang">Ingles</input>
+        <input type="checkbox" name="lang">Frances</input>
+      </div>
+  
+      <div class="form-control">
+        <label>Profesion</label>
+        <input type="radio" name="profesion">Estudiante</input>
+        <input type="radio" name="profesion">Licenciado</input>
+        <input type="radio" name="profesion">Profesional</input>
+      </div>
+    </form>
+
+    <button>Enviar</button>
+  </body>
+</html>
