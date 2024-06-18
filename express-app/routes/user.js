@@ -6,16 +6,18 @@ import getCurrentUser from "../helpers/getCurrentUser.js";
 
 const router = express.Router();
 
-router.get("/login", (req, resp) => {
-  resp.render("user/login");
-});
-
 router.post("/login", async (req, resp) => {
+  console.log("userReq", req.body);
+
   const userReq = req.body;
   const user = await User.findOne({ email: userReq.email });
 
   if (user === null || userReq.password !== user.password) {
-    resp.redirect("login");
+    resp.json({
+      jwt: null,
+      success: false,
+      message: "bad credentials",
+    });
     return;
   }
 
@@ -30,22 +32,22 @@ router.post("/login", async (req, resp) => {
     expiresIn: "1h",
   });
 
-  resp.cookie("jwt", signedJWT).redirect("list_all");
+  resp.json({
+    jwt: signedJWT,
+    success: true,
+    message: "ok",
+  });
 });
 
-router.get("/register", (req, resp) => {
-  resp.render("user/register");
-});
-
-router.post("/create", (req, resp) => {
+router.post("/create", async (req, resp) => {
   const userReq = req.body;
-  User.create(userReq);
-  resp.render("user/login");
+  const user = await User.create(userReq);
+  resp.json({ user: user });
 });
 
 router.get("/list_all", jwtAuthenticated, async (req, resp) => {
   const users = await User.find({});
-  resp.render("user/list_all", {
+  resp.json({
     users: users.map((current) => {
       return {
         id: current.id,
@@ -62,7 +64,7 @@ router.get("/list_all", jwtAuthenticated, async (req, resp) => {
 router.get("/info", jwtAuthenticated, async (req, resp) => {
   const user = await getCurrentUser(req);
   const users = await User.find({ _id: user.id });
-  resp.render("user/list_all", {
+  resp.json({
     users: users.map((current) => {
       return {
         id: current.id,

@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken";
 
 const jwtAuthenticated = (req, resp, next) => {
-  const jwtCookie = req.cookies["jwt"];
-
+  const jwtCookie = req.headers.authorization;
   if (!jwtCookie) {
-    resp.redirect("/user/login");
+    resp.json({
+      success: false,
+      message: "Unauthorized",
+    });
     return;
   }
 
@@ -13,7 +15,10 @@ const jwtAuthenticated = (req, resp, next) => {
     next();
   } catch (error) {
     console.error("error", error);
-    resp.redirect("/user/login");
+    resp.json({
+      success: false,
+      message: "Unauthorized",
+    });
   }
 };
 
